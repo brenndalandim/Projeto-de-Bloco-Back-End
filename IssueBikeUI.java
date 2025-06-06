@@ -25,9 +25,9 @@ public class IssueBikeUI {
         chosenBike.calculateCost(numDays);
     }
 
-    public void createCustomer(String name, String postcode, int telephone){
+    public void createCustomer(String name, String postcode, String telephone, String email) {
         //create a customer and associated hire and payment
-        customer = new Customer(name, postcode, telephone);
+        customer = new Customer(name, postcode, telephone, email);
         payment = new Payment(customer);
         hire = new Hire(new Date(), numberOfDays, chosenBike, customer);
     }

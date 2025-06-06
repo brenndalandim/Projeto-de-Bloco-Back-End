@@ -65,9 +65,10 @@ public class Bike {
         System.out.println("RATE: " + rate + "\n");
     }
 
-    public void calculateCost(int numberOfDays) {
-        int cost = deposit + (rate * numberOfDays);
+    public double calculateCost(int numberOfDays) {
+        double cost = deposit + (rate * numberOfDays);
         System.out.println("Cost would be £ " + cost + "\n");
+        return cost;
     }
 
     // Exporta dados em formato CSV
@@ -83,5 +84,10 @@ public class Bike {
     // Limpa a lista de bikes (útil antes de carregar dados do arquivo)
     public static void clearBikeList() {
         bikeList.clear();
+    }
+
+    @Override
+    public String toString() {
+        return "Bike #" + bikeNumber;
     }
 }
