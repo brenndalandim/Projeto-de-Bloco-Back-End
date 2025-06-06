@@ -8,7 +8,7 @@ import java.util.Properties;
 public class EmailService {
 
     private final String remetente = "brennda.landim@al.infnet.edu.br";
-    private final String senha = "osym gnuo mipz fayl"; // inserir senha de app
+    private final String senha = ""; // inserir senha de app
 
     public void enviarEmail(String destinatario, String assunto, String mensagem) {
         // Configurações do servidor SMTP do Gmail
