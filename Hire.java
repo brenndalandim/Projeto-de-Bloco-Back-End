@@ -11,6 +11,7 @@ public class Hire {
     private Bike bike = null;
     private int numberOfDays = 0;
     private int hireId = 0;
+    private Date endDate;
 
     private static int hireCount = 1;
 
@@ -59,6 +60,14 @@ public class Hire {
         return hireId;
     }
 
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     // Exporta dados em formato CSV
     public String toCSV() {
         return hireId + "," + sdf.format(startDate) + "," + numberOfDays + "," +
@@ -83,11 +92,18 @@ public class Hire {
         return daysPassed > numberOfDays;
     }
 
-    // Metodo para gerar mensagem de notificação de atraso
-    public String getOverdueMessage() {
-        if (!isOverdue()) return null;
-        long daysOverdue = TimeUnit.MILLISECONDS.toDays(new Date().getTime() -
-                (startDate.getTime() + TimeUnit.DAYS.toMillis(numberOfDays)));
-        return "Cliente " + customer.getName() + " está com atraso de " + daysOverdue + " dias na devolução da bike " + bike.getBikeNumber() + ".";
+    @Override
+    public String toString() {
+        return "Aluguel #" + hireId + " | Cliente: " + customer.getName() +
+                " | Bike: " + bike.getBikeNumber() +
+                " | Início: " + new java.text.SimpleDateFormat("dd/MM/yyyy").format(startDate);
     }
+
+//    // Metodo para gerar mensagem de notificação de atraso
+//    public String getOverdueMessage() {
+//        if (!isOverdue()) return null;
+//        long daysOverdue = TimeUnit.MILLISECONDS.toDays(new Date().getTime() -
+//                (startDate.getTime() + TimeUnit.DAYS.toMillis(numberOfDays)));
+//        return "Cliente " + customer.getName() + " está com atraso de " + daysOverdue + " dias na devolução da bike " + bike.getBikeNumber() + ".";
+//    }
 }
