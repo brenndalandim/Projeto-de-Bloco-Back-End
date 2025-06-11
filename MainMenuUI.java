@@ -1,7 +1,10 @@
 package Wheels;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +13,7 @@ public class MainMenuUI extends JFrame {
     private List<Bike> bikes;
     private List<Hire> hires;
     private List<Hire> hiresFinalizados;
+    private JLabel statusBar;
 
     public MainMenuUI(List<Customer> clientes, List<Bike> bikes, List<Hire> hires, List<Hire> hiresFinalizados) {
         this.clientes = clientes;
@@ -18,14 +22,36 @@ public class MainMenuUI extends JFrame {
         this.hiresFinalizados = hiresFinalizados;
 
         setTitle("Sistema de Aluguel de Bikes");
-        setSize(400, 300);
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Painel de botões
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6, 1, 10, 10));
+        // Estilo tradicional
+        Color corPrincipal = new Color(57, 105, 138); // Roxo
+        Color corFundo = new Color(214, 217, 223, 255);     // Cinza claro
+        Font fontePadrao = new Font("SansSerif", Font.BOLD, 14);
 
+        setLayout(new BorderLayout());
+
+        // Logo
+        JPanel topo = new JPanel();
+        topo.setBackground(corFundo);
+        try {
+            ImageIcon icon = new ImageIcon(ImageIO.read(new File("img/logo.png")));
+            Image imgRedimensionada = icon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            JLabel logoLabel = new JLabel(new ImageIcon(imgRedimensionada));
+            topo.add(logoLabel);
+        } catch (IOException e) {
+            topo.add(new JLabel("Sistema de Aluguel de Bikes"));
+        }
+        add(topo, BorderLayout.NORTH);
+
+        // Painel central com margens e espaçamento
+        JPanel panel = new JPanel(new GridLayout(6, 1, 10, 10));
+        panel.setBackground(corFundo);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Botões
         JButton btnListarClientes = new JButton("Listar Clientes");
         JButton btnListarBikes = new JButton("Listar Bikes Disponíveis");
         JButton btnNovoAluguel = new JButton("Emitir Novo Aluguel");
@@ -33,21 +59,27 @@ public class MainMenuUI extends JFrame {
         JButton btnNotificacoes = new JButton("Verificar Notificações de Atraso");
         JButton btnSair = new JButton("Sair");
 
-        panel.add(btnListarClientes);
-        panel.add(btnListarBikes);
-        panel.add(btnNovoAluguel);
-        panel.add(btnDevolverBike);
-        panel.add(btnNotificacoes);
-        panel.add(btnSair);
+        JButton[] botoes = {
+                btnListarClientes, btnListarBikes, btnNovoAluguel,
+                btnDevolverBike, btnNotificacoes, btnSair
+        };
 
-        add(panel);
+        for (JButton botao : botoes) {
+            botao.setFont(fontePadrao);
+            botao.setBackground(corPrincipal);
+            botao.setForeground(Color.WHITE);
+            botao.setFocusPainted(false);
+            panel.add(botao);
+        }
 
-        // Ações dos botões
-        btnListarClientes.addActionListener(e -> listarClientes());
-        btnListarBikes.addActionListener(e -> listarBikesDisponiveis());
-        btnNovoAluguel.addActionListener(e -> emitirNovoAluguel());
-        btnDevolverBike.addActionListener(e -> finalizarDevolucao());
-        btnNotificacoes.addActionListener(e -> verificarNotificacoes());
+        add(panel, BorderLayout.CENTER);
+
+        // Ações
+        btnListarClientes.addActionListener(e ->listarClientes());
+        btnListarBikes.addActionListener(e ->listarBikesDisponiveis());
+        btnNovoAluguel.addActionListener(e ->emitirNovoAluguel());
+        btnDevolverBike.addActionListener(e ->finalizarDevolucao());
+        btnNotificacoes.addActionListener(e ->verificarNotificacoes());
         btnSair.addActionListener(e -> System.exit(0));
 
         setVisible(true);
@@ -365,7 +397,8 @@ public class MainMenuUI extends JFrame {
                 sb.append("Cliente: ").append(n.getCustomerName()).append("\n")
                         .append("Bike nº: ").append(n.getBikeNumber()).append("\n")
                         .append("Data: ").append(n.getDateSent()).append("\n")
-                        .append("Mensagem: ").append(n.getMessage()).append("\n\n");
+                        .append("Mensagem: ").append(n.getMessage()).append("\n\n")
+                        .append("---------------------------------").append("\n\n");
             }
 
             JTextArea textArea = new JTextArea(sb.toString());

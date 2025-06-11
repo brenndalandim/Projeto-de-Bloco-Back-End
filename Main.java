@@ -6,6 +6,12 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         SwingUtilities.invokeLater(() -> {
             String caminhoClientes = "data/clientes.csv";
             String caminhoBikes = "data/bikes.csv";
